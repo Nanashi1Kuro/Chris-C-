@@ -1,6 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <stddef.h>
 
 size_t timer_from(unsigned char from);
 // TODO: Implement `power of` function

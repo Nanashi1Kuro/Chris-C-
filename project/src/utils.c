@@ -1,9 +1,13 @@
 #include "utils.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
 
 size_t timer_from(unsigned char from) {
-    size_t counter;
-    for (unsigned char i = from; i >= 0; --i) {
-        ++counter;
+    size_t counter = 0;
+    for (unsigned char i = from; i > 0; --i) {
+        counter++;
         printf(i);
     }
     return counter;
