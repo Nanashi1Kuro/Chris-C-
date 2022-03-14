@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+
+
 size_t timer_from(int from) {
     size_t counter = 0;
     if(from > 0){
@@ -19,9 +21,10 @@ size_t timer_from(int from) {
     return counter;
 }
 
-// TODO: Implement `power of` function
-/*
 int custom_pow(int base, int power) {
-    return 0;
+    int res = 1;
+    for(int i = 1; i <= power; ++i){
+        res *= base;
+    }
+    return res;
 }
-*/
