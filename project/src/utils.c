@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <math.h>
 
 
 
@@ -27,4 +28,18 @@ int custom_pow(int base, int power) {
         res *= base;
     }
     return res;
+}
+
+int prime(int n){
+    if(n > 1){
+        for(int i = 2; i < n; i++)
+            if((n % i) == 0)
+                return 0;
+            
+        return 1;   
+        
+    }
+    else 
+        return 0;
+    return 1;
 }
