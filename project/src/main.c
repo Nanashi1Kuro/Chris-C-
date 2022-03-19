@@ -49,7 +49,7 @@ int main(int argc, const char** argv) {
             if (argc == 4) {
                 int base = atoi(data);
                 int pow =  atoi(argv[3]);
-                int res = custom_pow(base, pow);    // TODO: Implement me
+                int res = custom_pow(base, pow);
 
                 printf("%i\n", res);
                 break;
@@ -62,8 +62,6 @@ int main(int argc, const char** argv) {
             int k = prime(num);
             printf("%i", k);
             break;
-
-            
         }
         default: {
             return ERR_WRONG_FLG;
