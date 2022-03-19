@@ -12,6 +12,7 @@
 #define TST_FOO_FIX     1
 #define TST_FOO_IMPL    2
 #define TST_MOD_IMPL    3
+#define TST_MOD_FIX     4
 
 
 /* NOTE(stitaevskiy):
@@ -50,7 +51,6 @@ int main(int argc, const char** argv) {
                 int base = atoi(data);
                 int pow =  atoi(argv[3]);
                 int res = custom_pow(base, pow);
-
                 printf("%i\n", res);
                 break;
             } else {
@@ -61,6 +61,11 @@ int main(int argc, const char** argv) {
             int num = atoi(data);
             int k = prime(num);
             printf("%i", k);
+            break;
+        }
+        case TST_MOD_FIX: {
+            int n = atoi(data);
+            recursion(n);
             break;
         }
         default: {

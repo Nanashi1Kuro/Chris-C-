@@ -9,5 +9,6 @@
 size_t timer_from(int from);
 int custom_pow(int base, int power);
 int prime(int n);
+void recursion(int n);
 
 #endif  // PROJECT_INCLUDE_UTILS_H_
