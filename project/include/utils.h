@@ -2,13 +2,15 @@
 #define PROJECT_INCLUDE_UTILS_H_
 #define UTILS_H
 
-#include <stddef.h>
 #include <math.h>
-
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 size_t timer_from(int from);
-int custom_pow(int base, int power);
-int prime(int n);
-void recursion(int n);
+int custom_power(int base, int power);
+int is_prime(int number);
+void output_recursion(int number);
 
 #endif  // PROJECT_INCLUDE_UTILS_H_

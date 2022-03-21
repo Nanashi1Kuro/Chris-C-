@@ -1,10 +1,4 @@
 #include "utils.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <math.h>
-#include <stdbool.h>
 
 #define ERR_ARGS_COUNT (-1)
 #define ERR_WRONG_FLG (-2)
@@ -35,11 +29,11 @@ int main(int argc, const char** argv) {
         return ERR_ARGS_COUNT;
     }
 
-    int Test_case = atoi(argv[1]);
+    int test_case = atoi(argv[1]);
     const char* data;
     data = argv[2];
 
-    switch (Test_case) {
+    switch (test_case) {
         case TST_FOO_FIX: {
             int to = atoi(data);
             size_t ticks_count = timer_from(to);
@@ -49,23 +43,23 @@ int main(int argc, const char** argv) {
         case TST_FOO_IMPL: {
             if (argc == 4) {
                 int base = atoi(data);
-                int pow =  atoi(argv[3]);
-                int res = custom_pow(base, pow);
-                printf("%i\n", res);
+                int power =  atoi(argv[3]);
+                int result = custom_power(base, power);
+                printf("%i\n", result);
                 break;
             } else {
                 return ERR_ARGS_COUNT;
             }
         }
         case TST_MOD_IMPL: {
-            int num = atoi(data);
-            int k = prime(num);
-            printf("%i", k);
+            int number = atoi(data);
+            int test = is_prime(number);
+            printf("%i", test);
             break;
         }
         case TST_MOD_FIX: {
-            int n = atoi(data);
-            recursion(n);
+            int number = atoi(data);
+            output_recursion(number);
             break;
         }
         default: {
