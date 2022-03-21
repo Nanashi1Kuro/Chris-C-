@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-size_t timer_from(int from);
+size_t countdown_from(int number);
 int custom_power(int base, int power);
 int is_prime(int number);
 void output_recursion(int number);

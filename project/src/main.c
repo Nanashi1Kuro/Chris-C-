@@ -35,9 +35,9 @@ int main(int argc, const char** argv) {
 
     switch (test_case) {
         case TST_FOO_FIX: {
-            int to = atoi(data);
-            size_t ticks_count = timer_from(to);
-            printf("%zu\n", ticks_count);
+            int number = atoi(data);
+            size_t number_of_count = countdown_from(number);
+            printf("%zu\n", number_of_count);
             break;
         }
         case TST_FOO_IMPL: {
