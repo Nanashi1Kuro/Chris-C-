@@ -5,7 +5,7 @@ HDRS_DIR = project/include
 SRCS = \
 		project/src/main.c \
 		project/src/utils.c \
-		project/src/prime.c \
+		project/src/is_prime.c \
 		project/src/output_recursion.c\
 		project/src/custom_power.c
 
