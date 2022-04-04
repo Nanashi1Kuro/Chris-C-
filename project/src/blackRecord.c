@@ -5,7 +5,7 @@ void blackRecord(FILE *ofPTR, FILE *ofPTR_2, FILE *blackrecord, Data *client_dat
         &client_data->Number, client_data->Name, client_data->Surname,
         client_data->addres, client_data->TelNumber, &client_data->indebtedness,
         &client_data->credit_limit, &client_data->cash_payments) != -1 ) {
-            while (fscanf(ofPTR_2 , "%d %f", &transfer->Number, &transfer->cash_payments) != -1) {
+            while (scanf("%d %f", &transfer->Number, &transfer->cash_payments) != -1) {
                 if (client_data->Number == transfer->Number &&  transfer->cash_payments != 0) {
                     client_data->credit_limit += transfer->cash_payments;
             } }
