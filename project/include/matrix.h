@@ -3,12 +3,13 @@
 
 #include <stddef.h>
 #include <stdio.h>
+#include "malloc.h"
 
 
 typedef struct Matrix {
     int rows;
     int cols;
-    double pointer_of_matrix[][];
+    double** pointer_of_matrix;
 } Matrix;
 
 // Init/release operations
@@ -39,7 +40,7 @@ int det(const Matrix* matrix, double* val);
 Matrix* adj(const Matrix* matrix);
 Matrix* inv(const Matrix* matrix);
 
-void swap(int& a, int& b);
+void swap(double *a, double *b);
 void swapLine(int* line1, int* line2, int number_of_line);
 Matrix* delLine(const Matrix* matrix, int position);
 Matrix* delSt(const Matrix* matrix, int position);

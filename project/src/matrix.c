@@ -2,31 +2,37 @@
 
 Matrix* create_matrix_from_file(const char* path_file){
     Matrix matrix;
-    FILE* from_create = fopen(path_file, r+);
-    fscanf("%i%i", matrix.rows, matrix.colm);
+    FILE* from_create = fopen(path_file, "r+");
+    fscanf("%i%i", matrix.rows, matrix.cols);
+    matrix.pointer_of_matrix = (double**)calloc(matrix.cols, sizeof(double*));
     for(int i = 0; i < matrix.rows; i++ ){
+        matrix.pointer_of_matrix[i] = calloc(matrix.rows, sizeof(double));
         for(int j = 0; j < matrix.cols; j++){
-            matrix.pointer_of_matrix[i][j] = ("%d", 2, from_create);
+            matrix.pointer_of_matrix[i][j] = scanf("%d", 2, from_create);
         }
     }
-    return matrix;
+    return &matrix;
 }
 
 Matrix* create_matrix(size_t rows, size_t cols){
     Matrix matrix;
     matrix.cols = cols;
     matrix.rows = rows;
-    for(int i = 0; i < rows; i++){
-        for(int j = 0; j < cols; j++){
-            scanf_s(%d, matrix.pointer_of_matrix[i][j]);
+    matrix.pointer_of_matrix = (double**)calloc(matrix.cols, sizeof(double*));
+    for(int i = 0; i < matrix.rows; i++ ){
+        matrix.pointer_of_matrix[i] = calloc(matrix.rows, sizeof(double));
+        for(int j = 0; j < matrix.cols; j++){
+            scanf_s("%d", matrix.pointer_of_matrix[i][j]);
         }
     }
     return &matrix;
 }
 
 void free_matrix(Matrix* matrix){
-    free(* matrix);
-    free(matrix);
+    for(int i = 0; i < matrix->rows; i++ ){
+        free(matrix->pointer_of_matrix[i]);
+    }
+    free(matrix->pointer_of_matrix);
 }
 
 
@@ -86,7 +92,7 @@ Matrix* sum(const Matrix* l, const Matrix* r){
         Matrix* sum_matrix = create_matrix(l->rows, l->cols);
             for (int i = 0; i < l->rows; i++){
                 for(int j = 0; j < l->cols; j++){
-                    sum_matrix->pointer_of_matrix[i][j] = math_sum(l->pointer_of_matrix[i][j], r->pointer_of_matrix[i][j];
+                    sum_matrix->pointer_of_matrix[i][j] = math_sum(l->pointer_of_matrix[i][j], r->pointer_of_matrix[i][j]);
                 }
             }
         return sum_matrix;   
@@ -98,7 +104,7 @@ Matrix* sub(const Matrix* l, const Matrix* r){
         Matrix* sub_matrix = create_matrix(l->rows, l->cols);
             for (int i = 0; i < l->rows; i++){
                 for(int j = 0; j < l->cols; j++){
-                    sub_matrix->pointer_of_matrix[i][j] = math_sub(l->pointer_of_matrix[i][j], r->pointer_of_matrix[i][j];
+                    sub_matrix->pointer_of_matrix[i][j] = math_sub(l->pointer_of_matrix[i][j], r->pointer_of_matrix[i][j]);
                 }
             }
         return sub_matrix;   
@@ -110,7 +116,7 @@ Matrix* mul(const Matrix* l, const Matrix* r){
         Matrix* mul_matrix = create_matrix(l->rows, r->cols);
             for (int i = 0; i < r->cols; i++){
                 for(int j = 0; j < l->rows; j++){
-                    mul_matrix->pointer_of_matrix[i][j] = math_mul(l->pointer_of_matrix[i][j], r->pointer_of_matrix[i][j];
+                    mul_matrix->pointer_of_matrix[i][j] = math_mul(l->pointer_of_matrix[i][j], r->pointer_of_matrix[i][j]);
             }
         }
         return mul_matrix; 
@@ -119,10 +125,10 @@ Matrix* mul(const Matrix* l, const Matrix* r){
 }
 
 // Extra operations
-void swap(int& a, int& b){
-    int t = a;
-    a = b;
-    b = t;
+void swap(double *a, double *b){
+    double t = *a;
+    *a = *b;
+    *b = t;
 }
 
 void swapLine(int* line1, int* line2, int number_of_line){
@@ -148,7 +154,7 @@ Matrix* delSt(const Matrix* matrix, int position){
     Matrix* matrix_with_delSt = create_matrix(matrix->rows, matrix->cols - 1);
     for (int i = 0; i < matrix->rows; i++){
         for (int j = position; j < matrix->cols - 1; j++){
-            swap(matrix->pointer_of_matrix[i][j], matrix->pointer_of_matrix[i][j + 1]);
+            swap(&(matrix->pointer_of_matrix[i][j]), &(matrix->pointer_of_matrix[i][j + 1]));
         }
     }
     for (int i = 0; i > matrix->rows; i++){
@@ -191,11 +197,11 @@ double math_det(const Matrix* matrix){
             Matrix* temp_matrix = create_matrix(matrix->rows, matrix->cols);
             temp_matrix = delLine(temp_matrix, 0);
             temp_matrix = delSt(temp_matrix, j);
-            det += power(-1, 1+j)* math_mul(matrix->pointer_of_matrix[1][j], math_det(temp_matrix));
+            num_det += power(-1, 1+j)* math_mul(matrix->pointer_of_matrix[1][j], math_det(temp_matrix));
         }
         return num_det;
     }
-    return det;
+    return num_det;
 }
 
 
@@ -204,8 +210,8 @@ Matrix* adj(const Matrix* matrix){
     for (int i = 0; i < adj_matrix->cols; i++){
         for(int j = 0; j < adj_matrix->rows; j++){
             Matrix* temp_minor_matrix = create_matrix(matrix->rows, matrix->cols);
-            temp_minor_matrix = delLine(temp_matrix, i);
-            temp_minor_matrix = delSt(temp_matrix, j);
+            temp_minor_matrix = delLine(temp_minor_matrix, i);
+            temp_minor_matrix = delSt(temp_minor_matrix, j);
             double minor = math_det(temp_minor_matrix);
             adj_matrix->pointer_of_matrix[i][j] = math_mul(power(-1, i+j), minor);
         }
@@ -219,5 +225,3 @@ Matrix* inv(const Matrix* matrix){
     Matrix* adj_matrix = adj(inv_matrix);
     return mul_scalar(adj_matrix, det);
 }
-
-
