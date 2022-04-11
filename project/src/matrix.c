@@ -1,31 +1,33 @@
 #include "matrix.h"
 
 Matrix* create_matrix_from_file(const char* path_file){
-    Matrix matrix;
+    Matrix* matrix;
     FILE* from_create = fopen(path_file, "r+");
-    fscanf("%i%i", matrix.rows, matrix.cols);
-    matrix.pointer_of_matrix = (double**)calloc(matrix.cols, sizeof(double*));
-    for(int i = 0; i < matrix.rows; i++ ){
-        matrix.pointer_of_matrix[i] = calloc(matrix.rows, sizeof(double));
-        for(int j = 0; j < matrix.cols; j++){
-            matrix.pointer_of_matrix[i][j] = scanf("%d", 2, from_create);
+    matrix->rows = (int)calloc(1,sizeof(int));
+    matrix->cols = (int)calloc(1,sizeof(int));
+    fscanf(from_create,"%i%i", &matrix->rows, &matrix->cols);
+    matrix->pointer_of_matrix = (double**)calloc(matrix->cols, sizeof(double*));
+    for(int i = 0; i < matrix->rows; i++ ){
+        matrix->pointer_of_matrix[i] = calloc(matrix->rows, sizeof(double));
+        for(int j = 0; j < matrix->cols; j++){
+            matrix->pointer_of_matrix[i][j] = fscanf("%d", 1, from_create);
         }
     }
-    return &matrix;
+    return matrix;
 }
 
 Matrix* create_matrix(size_t rows, size_t cols){
-    Matrix matrix;
-    matrix.cols = cols;
-    matrix.rows = rows;
-    matrix.pointer_of_matrix = (double**)calloc(matrix.cols, sizeof(double*));
-    for(int i = 0; i < matrix.rows; i++ ){
-        matrix.pointer_of_matrix[i] = calloc(matrix.rows, sizeof(double));
-        for(int j = 0; j < matrix.cols; j++){
-            scanf_s("%d", matrix.pointer_of_matrix[i][j]);
+    Matrix* matrix;
+    matrix->cols = cols;
+    matrix->rows = rows;
+    matrix->pointer_of_matrix = (double**)calloc(matrix->cols, sizeof(double*));
+    for(int i = 0; i < matrix->rows; i++ ){
+        matrix->pointer_of_matrix[i] = calloc(matrix->rows, sizeof(double));
+        for(int j = 0; j < matrix->cols; j++){
+            scanf_s("%d", matrix->pointer_of_matrix[i][j]);
         }
     }
-    return &matrix;
+    return matrix;
 }
 
 void free_matrix(Matrix* matrix){
@@ -221,7 +223,7 @@ Matrix* adj(const Matrix* matrix){
 
 Matrix* inv(const Matrix* matrix){
     Matrix* inv_matrix = create_matrix(matrix->rows, matrix->cols);
-    double det = math_det(inv_matrix);
+    double num_det = math_det(inv_matrix);
     Matrix* adj_matrix = adj(inv_matrix);
-    return mul_scalar(adj_matrix, det);
+    return mul_scalar(adj_matrix, num_det);
 }

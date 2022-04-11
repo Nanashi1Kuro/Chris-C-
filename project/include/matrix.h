@@ -45,7 +45,6 @@ void swapLine(int* line1, int* line2, int number_of_line);
 Matrix* delLine(const Matrix* matrix, int position);
 Matrix* delSt(const Matrix* matrix, int position);
 double power(double base, int power);
-int det(const Matrix* matrix, double* val);
 double math_det(const Matrix* matrix);
 
 #endif //_MATRIX_H_
