@@ -11,7 +11,7 @@ Matrix* create_matrix_from_file(const char* path_file){
     for(int i = 0; i < matrix->rows; i++ ){
         matrix->pointer_of_matrix[i] = calloc(matrix->rows, sizeof(double));
         for(int j = 0; j < matrix->cols; j++){
-            matrix->pointer_of_matrix[i][j] = fscanf("%d", 1, from_create);
+            fscanf(from_create,"%lf", &matrix->pointer_of_matrix[i][j]);
         }
     }
     return matrix;
@@ -28,7 +28,7 @@ Matrix* create_matrix(size_t rows, size_t cols){
     for(int i = 0; i < matrix->rows; i++ ){
         matrix->pointer_of_matrix[i] = calloc(matrix->rows, sizeof(double));
         for(int j = 0; j < matrix->cols; j++){
-            scanf_s("%d", matrix->pointer_of_matrix[i][j]);
+            scanf("%lf", &matrix->pointer_of_matrix[i][j]);
         }
     }
     return matrix;
@@ -83,16 +83,6 @@ Matrix* transp(const Matrix* matrix){
     return trancp_matrix;
 }
 
-double math_sum(double l, double r){
-    return l + r;
-}
-double math_sub(double l, double r){
-    return l - r;
-}
-double math_mul(double l, double r){
-    return l*r;
-}
-
 Matrix* sum(const Matrix* l, const Matrix* r){
     if (l->cols == r->cols && l->rows == r->rows){
         Matrix* sum_matrix = create_matrix(l->rows, l->cols);
@@ -131,15 +121,46 @@ Matrix* mul(const Matrix* l, const Matrix* r){
 }
 
 // Extra operations
+
+int det(const Matrix* matrix, double* val){
+    if(matrix->rows == matrix->cols){
+        * val = math_det(matrix);
+        return 0;
+    }
+    return -1;
+}
+
+Matrix* adj(const Matrix* matrix){
+    Matrix* adj_matrix = create_matrix(matrix->rows, matrix->cols);
+    for (int i = 0; i < adj_matrix->cols; i++){
+        for(int j = 0; j < adj_matrix->rows; j++){
+            Matrix* temp_minor_matrix = create_matrix(matrix->rows, matrix->cols);
+            temp_minor_matrix = delLine(temp_minor_matrix, i);
+            temp_minor_matrix = delSt(temp_minor_matrix, j);
+            double minor = math_det(temp_minor_matrix);
+            adj_matrix->pointer_of_matrix[i][j] = math_mul(power(-1, i+j), minor);
+            free(temp_minor_matrix);
+        }
+    }
+    return adj_matrix;
+}
+
+Matrix* inv(const Matrix* matrix){
+    Matrix* inv_matrix = create_matrix(matrix->rows, matrix->cols);
+    double num_det = math_det(inv_matrix);
+    Matrix* adj_matrix = adj(inv_matrix);
+    return mul_scalar(adj_matrix, num_det);
+}
+
 void swap(double *a, double *b){
     double t = *a;
     *a = *b;
     *b = t;
 }
 
-void swapLine(int* line1, int* line2, int number_of_line){
+void swapLine(double* line1, double* line2, int number_of_line){
     for (int i = 0; i < number_of_line; i++){
-        swap(line1[i], line2[i]);
+        swap(&line1[i], &line2[i]);
     }
 }
 
@@ -172,6 +193,16 @@ Matrix* delSt(const Matrix* matrix, int position){
 
 }
 
+double math_sum(double l, double r){
+    return l + r;
+}
+double math_sub(double l, double r){
+    return l - r;
+}
+double math_mul(double l, double r){
+    return l*r;
+}
+
 double power(double base, int power) {
     double result = 1;
     for (int i = 1; i <= power; ++i)
@@ -179,55 +210,27 @@ double power(double base, int power) {
     return result;
 }
 
-int det(const Matrix* matrix, double* val){
-    if(matrix->rows == matrix->cols){
-        * val = math_det(matrix);
-        return 0;
-    }
-    return -1;
-}
-
 double math_det(const Matrix* matrix){
     double num_det = 0;
-    if(matrix->cols == 0){
-        return matrix->pointer_of_matrix[0][0];
+    if(matrix->rows == 0){
+        num_det = matrix->pointer_of_matrix[0][0];
+        return num_det;
     }
-    if(matrix->cols == 1){
-        double l = math_mul(matrix->pointer_of_matrix[0][0], matrix->pointer_of_matrix[0][1]);
+    if(matrix->rows == 1){
+        double l = math_mul(matrix->pointer_of_matrix[0][0], matrix->pointer_of_matrix[1][1]);
         double r = math_mul(matrix->pointer_of_matrix[0][1], matrix->pointer_of_matrix[1][0]);
         num_det = math_sub(l, r);
         return num_det;
     }
     if(matrix->cols > 1){
-        for(int j = 0; j < matrix->cols; j++){
+        for(int j = 0; j < matrix->rows; j++){
             Matrix* temp_matrix = create_matrix(matrix->rows, matrix->cols);
             temp_matrix = delLine(temp_matrix, 0);
             temp_matrix = delSt(temp_matrix, j);
             num_det += power(-1, 1+j)* math_mul(matrix->pointer_of_matrix[1][j], math_det(temp_matrix));
+            free(temp_matrix);
         }
         return num_det;
     }
     return num_det;
-}
-
-
-Matrix* adj(const Matrix* matrix){
-    Matrix* adj_matrix = create_matrix(matrix->rows, matrix->cols);
-    for (int i = 0; i < adj_matrix->cols; i++){
-        for(int j = 0; j < adj_matrix->rows; j++){
-            Matrix* temp_minor_matrix = create_matrix(matrix->rows, matrix->cols);
-            temp_minor_matrix = delLine(temp_minor_matrix, i);
-            temp_minor_matrix = delSt(temp_minor_matrix, j);
-            double minor = math_det(temp_minor_matrix);
-            adj_matrix->pointer_of_matrix[i][j] = math_mul(power(-1, i+j), minor);
-        }
-    }
-    return adj_matrix;
-}
-
-Matrix* inv(const Matrix* matrix){
-    Matrix* inv_matrix = create_matrix(matrix->rows, matrix->cols);
-    double num_det = math_det(inv_matrix);
-    Matrix* adj_matrix = adj(inv_matrix);
-    return mul_scalar(adj_matrix, num_det);
 }

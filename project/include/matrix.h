@@ -3,8 +3,7 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include "malloc.h"
-
+#include <stdlib.h>
 
 typedef struct Matrix {
     int rows;
@@ -26,11 +25,6 @@ int set_elem(Matrix* matrix, size_t row, size_t col, double val);
 //Math operations
 Matrix* mul_scalar(const Matrix* matrix, double val);
 Matrix* transp(const Matrix* matrix);
-
-double math_sum(double l, double r);
-double math_sub(double l, double r);
-double math_mul(double l, double r);
-
 Matrix* sum(const Matrix* l, const Matrix* r);
 Matrix* sub(const Matrix* l, const Matrix* r);
 Matrix* mul(const Matrix* l, const Matrix* r);
@@ -40,11 +34,18 @@ int det(const Matrix* matrix, double* val);
 Matrix* adj(const Matrix* matrix);
 Matrix* inv(const Matrix* matrix);
 
+// Auxiliary functions
+
 void swap(double *a, double *b);
-void swapLine(int* line1, int* line2, int number_of_line);
+void swapLine(double* line1, double* line2, int number_of_line);
 Matrix* delLine(const Matrix* matrix, int position);
 Matrix* delSt(const Matrix* matrix, int position);
+double math_sum(double l, double r);
+double math_sub(double l, double r);
+double math_mul(double l, double r);
 double power(double base, int power);
 double math_det(const Matrix* matrix);
+
+
 
 #endif //_MATRIX_H_
