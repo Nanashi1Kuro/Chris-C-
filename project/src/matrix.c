@@ -2,6 +2,7 @@
 
 Matrix* create_matrix_from_file(const char* path_file){
     Matrix* matrix;
+    matrix = (Matrix*)calloc(1,sizeof(Matrix));
     FILE* from_create = fopen(path_file, "r+");
     matrix->rows = (int)calloc(1,sizeof(int));
     matrix->cols = (int)calloc(1,sizeof(int));
@@ -18,6 +19,9 @@ Matrix* create_matrix_from_file(const char* path_file){
 
 Matrix* create_matrix(size_t rows, size_t cols){
     Matrix* matrix;
+    matrix = (Matrix*)calloc(1,sizeof(Matrix));
+    matrix->rows = (int)calloc(1,sizeof(int));
+    matrix->cols = (int)calloc(1,sizeof(int));
     matrix->cols = cols;
     matrix->rows = rows;
     matrix->pointer_of_matrix = (double**)calloc(matrix->cols, sizeof(double*));
