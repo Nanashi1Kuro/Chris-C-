@@ -5,12 +5,12 @@ VALGRIND_LOG = "valgrind.log"
 # XXX: Don't forget backslash at the end of any line except the last one
 # Main
 HDRS = \
-	   project/include/matrix.h\
+	   project/include/\
 
 
 SRCS = \
 	   project/src/main.c \
-	   project/src/matrix.c\
+	   project/src/matrix.c 
 
 # Test
 TST_HDRS = \
